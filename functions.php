@@ -1,4 +1,35 @@
 <?php
+
+function file_path_from_url( $url ) {
+    $wp_upload_dir = wp_upload_dir();
+    return str_replace($wp_upload_dir['baseurl'], $wp_upload_dir['basedir'], $url);
+}
+
+function url_from_file_path( $file_path ) {
+    $wp_upload_dir = wp_upload_dir();
+    return str_replace($wp_upload_dir['basedir'], $wp_upload_dir['baseurl'], $file_path);
+}
+
+function attach_media_to_post( $post_id, $image_url, $set_as_thumbnail=false, $title='', $content='', $status='inherit' ) {
+    $filename = file_path_from_url( $image_url );
+    $filetype = wp_check_filetype( basename( $filename ), null );
+    $wp_upload_dir = wp_upload_dir();
+    $attachment = array(
+        'guid'           => $image_url, 
+        'post_mime_type' => $filetype['type'],
+        'post_title'     => $title,
+        'post_content'   => $content,
+        'post_status'    => $status
+    );
+    $attach_id = wp_insert_attachment( $attachment, $filename, $post_id );
+    require_once( ABSPATH . 'wp-admin/includes/image.php' );
+    $attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
+    wp_update_attachment_metadata( $attach_id, $attach_data );
+    if( $set_as_thumbnail ) {
+        set_post_thumbnail( $post_id, $attach_id );
+    }
+}
+
 /*
     -- Credit to: http://pastebin.com/kgLt1RrG
 	$meta_key    - What meta key to check against (required)
@@ -82,29 +113,5 @@ function posts_without_meta( $meta_key = '', $post_type = 'post', $fields = 'all
 	
 	return $result;
 }
-/*
-	Example - fetch posts with given meta, then pass to get_posts
-	-----------------
-	<?php
-	// Find posts without a meta entry for the fruit custom field
-	$posts_without_fruit = posts_without_meta( 'fruit', '', 'ids' );
-	
-	// If the result didn't come back false
-	if( $posts_without_fruit )
-	
-		// Pass the IDs returned into get_posts
-		$posts_without_meta = get_posts( 'include=' . implode( ',', $posts_without_fruit) );
-	
-	// Basic get_posts loop
-	foreach( $posts_without_meta as $post ) :
-		setup_postdata( $post );
-		
-		the_title();
-		echo '<br />';
-		
-	endforeach;
-	
-	wp_reset_query();
-	?>
-*/
+
 ?>

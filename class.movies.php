@@ -73,7 +73,7 @@ class Movies {
         fwrite( $fh, $image_to_upload );
         fclose( $fh );
 	}
-	
+
 	public static function data_from_tmdb_basic_search( $result, $get_detail=false ) {
 	    if($get_detail) {
 	        $result = self::$TMDB->movieDetail($result['id']);
@@ -191,7 +191,17 @@ class Movies {
             'default' => 'tribe_events',
             'label' => 'Post type (optional)',
             'description' => '`tribe_events` for use with Events Calendar (Pro); set to blank or other post type as needed'
-        )
+        ),
+        'zmovies_attach_media' => array(
+            'default' => 'y',
+            'label' => 'Attach imported media to posts',
+            'description' => '`y` for yes, anything else for no'
+        ),
+        'zmovies_featured_image' => array(
+            'default' => 'backdrop then poster',
+            'label' => 'Make featured image',
+            'description' => '`backdrop then poster` or `poster then backdrop`; anything else for none'
+        ),
     );
 
 }
