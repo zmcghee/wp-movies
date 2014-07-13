@@ -20,12 +20,16 @@ class Movie {
     function __construct($data) {
         self::$POSTER_WIDTH = get_option('zmovies_poster_width');
         self::$BACKDROP_WIDTH = get_option('zmovies_backdrop_width');
-    
-        if( is_string($data) ) {
+
+        if ( is_numeric($data) ) { // post ID *not* a TMDb ID
+            $data = get_post_meta( $data, '_zmovies_json', true );
+        }
+
+        if( is_string($data) ) { // JSON
             $data = json_decode(base64_decode($data), true);
         }
     
-        if(!empty($data)) {
+        if(!empty($data)) { // array
             foreach($data as $key => $value) {
                 $this->{$key} = $value;
             }
