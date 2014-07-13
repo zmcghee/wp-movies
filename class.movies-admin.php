@@ -15,6 +15,7 @@ class Movies_Admin {
         add_submenu_page('movies', 'Movies Import Tool', 'Import', 'publish_posts', 'movies', array( 'Movies_Admin', 'import_page' ) );
 	    $hook_suffix = add_submenu_page('movies', 'Movies Plugin Configuration', 'Settings', 'manage_options', 'movies-settings', array( 'Movies_Admin', 'settings_page' ) );
         add_action( 'load-' . $hook_suffix , array( 'Movies_Admin', 'override_display_notices' ) );
+        add_submenu_page('movies', 'Movies Plugin Tools', 'Tools', 'publish_posts', 'movies-tools', array( 'Movies_Admin', 'tools_page' ) );
 	}
 
 	public static function override_display_notices() {
@@ -34,6 +35,10 @@ class Movies_Admin {
 
 	public static function settings_page() {
 	    Movies::render_template('admin/settings.php', array());
+	}
+	
+	public static function tools_page() {
+	    Movies::render_template('admin/tools.php', array());
 	}
 
 }

@@ -120,24 +120,47 @@ class Movies {
 	}
 	
 	public static function plugin_deactivation() {
-	    self::restore_defaults();
+	    self::clear_all_data();
 	}
 	
-	public static function restore_defaults() {
+	public static function restore_defaults($exclude=array('zmovies_tmdb_key')) {
 	    foreach(self::$settings as $opt_name => $opt) {
-	        update_option( $opt_name, $opt['default'] );
+	        if(!in_array($opt_name, $exclude)) {
+	            update_option( $opt_name, $opt['default'] );
+	        }
 	    }
-	    self::clear_all_data();
 	}
 	
 	public static function clear_all_data() {
 	    $posts = self::posts_with_movie_data();
 	    foreach($posts as $post) {
-	        delete_post_meta( $post->ID, 'tmdb_id' );
-	        delete_post_meta( $post->ID, '_zmovies_json' );
+	        self::clear_data_for_post( $post->ID );
 	    }
 	}
 	
+	public static function clear_data_for_tmdb_id( $tmdb_id ) {
+	    $posts = self::posts_with_tmdb_id( $tmdb_id );
+	    foreach($posts as $post) {
+	        self::clear_data_for_post( $post->ID );
+	    }
+	}
+	
+	public static function clear_data_for_post( $post_id ) {
+	    delete_post_meta( $post_id, 'tmdb_id' );
+	    delete_post_meta( $post_id, '_zmovies_json' );
+	}
+
+    public static function posts_with_tmdb_id( $tmdb_id ) {
+        $args = array(
+	        'posts_per_page' => 9999,
+            'meta_key'         => 'tmdb_id',
+            'meta_value'       => $tmdb_id,
+            'post_type'        => get_option('zmovies_post_type'),
+            'suppress_filters' => true
+        );
+        return get_posts( $args );
+    }
+
 	public static function posts_with_movie_data() {
 	    $args = array(
 	        'posts_per_page' => 9999,
