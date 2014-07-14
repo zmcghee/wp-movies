@@ -16,7 +16,7 @@
     <div class="wrapper">
       <header>
         <h1>WordPress Movies Plugin</h1>
-        <p>Easily attach movie posters and other data from TMDb to your blog posts or events in WordPress</p>
+        <p>Easily attach movie posters and other movie data from TheMovieDb.org to your blog posts or events in WordPress</p>
 
         <p class="view"><a href="https://github.com/zmcghee/wp-movies">View the Project on GitHub <small>zmcghee/wp-movies</small></a></p>
 
@@ -28,22 +28,12 @@
         </ul>
       </header>
       <section>
-        <h1></h1>
-
-<h1>
-<a name="wordpress-movies-plugin" class="anchor" href="#wordpress-movies-plugin"><span class="octicon octicon-link"></span></a>WordPress Movies Plugin</h1>
-
-<p>Attach data (including movie posters and backdrop images) from
-TheMovieDb.org to your posts or events in WordPress.</p>
-
-<h1>
-<a name="screenshots" class="anchor" href="#screenshots"><span class="octicon octicon-link"></span></a>Screenshots</h1>
 
 <a href="screenshots/import.png">
     <img src="screenshots/import.png" alt="Import Tool" />
 </a>
 
-<p>The import pool suggests movie matches from TMDb based on your post titles. You can choose from the matches, or leave a post without a movie. The blue icons indicate that a poster (left) and a backdrop image (right) are available for every movie.</p>
+<p>The import tool suggests movie matches from TMDb based on your post titles. You can choose from the matches, or leave a post without a movie. The blue icons indicate that a poster (left) and a backdrop image (right) are available for every movie.</p>
 
 <a href="screenshots/media.png">
     <img src="screenshots/media.png" alt="Attach Media to a Post" />
@@ -57,6 +47,8 @@ TheMovieDb.org to your posts or events in WordPress.</p>
 
 <p>We see the featured image showing with our blog post or event post type on our public blog.</p>
 
+<hr />
+
 <h1>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
 
@@ -66,6 +58,8 @@ TheMovieDb.org to your posts or events in WordPress.</p>
 <p>After you activate the plugin, configure it by going to the <em>Settings</em>
 screen under the <em>Movies</em> menu in your admin dashboard. You'll need a
 TMDb API key, which you can get at <a href="http://www.themoviedb.org/documentation/api">http://www.themoviedb.org/documentation/api</a></p>
+
+<hr />
 
 <h1>
 <a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work?</h1>
@@ -89,10 +83,14 @@ the poster image as the featured image.</li>
 <li>Set a custom metadata field with the tmdb_id for the matching movie.</li>
 <li>Store some other data about the movie that you can use in your theme's
 templates (see below).</li>
-</ul><h1>
-<a name="what-other-data-can-i-use-in-my-templates" class="anchor" href="#what-other-data-can-i-use-in-my-templates"><span class="octicon octicon-link"></span></a>What other data can I use in my templates?</h1>
+</ul>
 
-<p>A basic example looks like::</p>
+<hr />
+
+<h1>
+<a name="what-other-data-can-i-use-in-my-templates" class="anchor" href="#what-other-data-can-i-use-in-my-templates"><span class="octicon octicon-link"></span></a>What other movie data can I use in my theme?</h1>
+
+<p>Once movie data is imported and attached to a post, it's stored as custom metadata which is accessible through the Movie object. A basic example looks like::</p>
 
 <pre><code>$movie = new Movie( $post-&gt;ID );
 if( $movie-&gt;title )
@@ -116,12 +114,12 @@ $movie-&gt;overview  # tmdb's text synopsis of movie
 </code></pre>
 
 <p>Although every Movie object has these properties, they may be empty
-depending on the source data. (If you haven't imported any movie data to
-a post, conjuring a Movie object from that post will also return a valid
-Movie object with all empty values.)</p>
+depending on the source data.</p>
+
+<hr />
 
 <h1>
-<a name="credits--license" class="anchor" href="#credits--license"><span class="octicon octicon-link"></span></a>Credits &amp; License</h1>
+<a name="credits-license" class="anchor" href="#credits-license"><span class="octicon octicon-link"></span></a>Credits &amp; License</h1>
 
 <p>This package is licensed under the BSD license. A copy of this license
 is enclosed in license.txt. More information at <a href="http://opensource.org/licenses/bsd-license.php">http://opensource.org/licenses/bsd-license.php</a></p>
