@@ -42,9 +42,11 @@ Unless you've configured it to do otherwise, the import tool will:
   templates (see below).
 
 
-What other data can I use in my templates?
-==========================================
+What other data can I use in my theme?
+======================================
 
+Once movie data is imported and attached to a post, it's stored as
+custom metadata which is accessible through the Movie object.
 A basic example looks like::
 
     $movie = new Movie( $post->ID );
@@ -71,6 +73,24 @@ Although every Movie object has these properties, they may be empty
 depending on the source data. (If you haven't imported any movie data to
 a post, conjuring a Movie object from that post will also return a valid
 Movie object with all empty values.)
+
+
+Can I call the TMDb API directly?
+=================================
+
+I certainly don't recommend doing it on request in your theme's templates,
+but if you want to ping the TMDb API directly for additional data, you can
+use ``Movies::$TMDB``, an instance of TMDB_V3_API_PHP, for that.
+
+Here's a quick example::
+
+    $search = Movies::$TMDB->searchMovie("Back to the Future");
+    foreach($search['results'] as $result) {
+        echo $result['title'];
+    }
+
+Documentation for that library is available at
+https://github.com/pixelead0/tmdb_v3-PHP-API-/
 
 
 About This Version
