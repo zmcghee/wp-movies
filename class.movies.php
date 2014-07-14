@@ -47,10 +47,10 @@ class Movies {
 	    if($size == 'backdrop') { $size = Movie::BACKDROP_WIDTH; }
         $wp_upload_dir = wp_upload_dir();
         $file_destination = '/tmdb/' . $size . $file_path;
-        if( !file_exists($wp_upload_dir['path'] . $file_destination) || $force_copy ) {
+        if( !file_exists($wp_upload_dir['basedir'] . $file_destination) || $force_copy ) {
             self::copy_tmdb_image( $file_path, $size ); 
         }
-        $image_url = $wp_upload_dir['url'] . $file_destination;
+        $image_url = $wp_upload_dir['baseurl'] . $file_destination;
         return $image_url;
 	}
 	
@@ -60,7 +60,7 @@ class Movies {
 	    $image_url = self::$TMDB->getImageURL($size) . $file_path;
 	    $image_to_upload = file_get_contents( $image_url );
         $wp_upload_dir = wp_upload_dir();
-        $tmdb_upload_dir = $wp_upload_dir['path'] . '/tmdb';
+        $tmdb_upload_dir = $wp_upload_dir['basedir'] . '/tmdb';
         if( !file_exists( $tmdb_upload_dir ) ) {
             mkdir( $tmdb_upload_dir );
         }
