@@ -5,6 +5,8 @@ WordPress Movies Plugin
 Attach data (including movie posters and backdrop images) from
 TheMovieDb.org to your posts or events in WordPress.
 
+For screenshots, visit http://zmcghee.github.io/wp-movies/
+
 
 Installation
 ============
