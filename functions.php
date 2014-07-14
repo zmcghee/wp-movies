@@ -28,6 +28,16 @@ function attach_media_to_post( $post_id, $image_url, $set_as_thumbnail=false, $t
     if( $set_as_thumbnail ) {
         set_post_thumbnail( $post_id, $attach_id );
     }
+    return $attach_id;
+}
+
+function get_attach_ids_for_post( $post_id ) {
+    $attach_ids = array();
+    $existing_media = get_post_meta( $post_id, '_zmovies_attach_ids', true );
+    if($existing_media) {
+        $attach_ids = explode(",", $existing_media);
+    }
+    return $attach_ids;
 }
 
 /*

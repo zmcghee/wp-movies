@@ -50,12 +50,16 @@ if( isset($_POST['posts']) ) {
         
         // Attach media
         if( trim(get_option('zmovies_attach_media')) == 'y' ) {
+            $attach_ids = get_attach_ids_for_post( $post_id );
             if($movie->backdrop_path) {
-                attach_media_to_post( $post_id, $movie->backdrop_path, is_featured_image('backdrop', $movie), $movie->title );
+                $attach_id = attach_media_to_post( $post_id, $movie->backdrop_path, is_featured_image('backdrop', $movie), $movie->title );
+                $attach_ids[] = $attach_id;
             }
             if($movie->poster_path) {
-                attach_media_to_post( $post_id, $movie->poster_path, is_featured_image('poster', $movie), $movie->title );
+                $attach_id = attach_media_to_post( $post_id, $movie->poster_path, is_featured_image('poster', $movie), $movie->title );
+                $attach_ids[] = $attach_id;
             }
+            add_or_update_post_meta( $post_id, '_zmovies_attach_ids', implode(",", $attach_ids) );
         }
 
     }

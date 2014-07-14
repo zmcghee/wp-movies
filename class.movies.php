@@ -146,8 +146,20 @@ class Movies {
 	}
 	
 	public static function clear_data_for_post( $post_id ) {
+	    $tmdb_id = get_post_meta( $post_id, 'tmdb_id', true ); 
 	    delete_post_meta( $post_id, 'tmdb_id' );
 	    delete_post_meta( $post_id, '_zmovies_json' );
+	    /* Delete imported media if it's not attached to other posts.
+	    TODO: Remove attachment metadata from this post without
+	    deleting image file (unless image file isn't needed anymore). */
+	    $other_posts = self::posts_with_tmdb_id( $tmdb_id );
+	    if( count($other_posts) < 1 ) {
+            $attach_ids = get_attach_ids_for_post( $post_id );
+            foreach( $attach_ids as $attach_id ) {
+                wp_delete_attachment( $attach_id );
+            }
+            delete_post_meta( $post_id, '_zmovies_attach_ids' );
+        }
 	}
 
     public static function posts_with_tmdb_id( $tmdb_id ) {
