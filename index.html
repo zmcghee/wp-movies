@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>WordPress Movies Plugin by zmcghee</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>WordPress Movies Plugin</h1>
+        <p>Easily attach movie posters and other data from TMDb to your blog posts or events in WordPress</p>
+
+        <p class="view"><a href="https://github.com/zmcghee/wp-movies">View the Project on GitHub <small>zmcghee/wp-movies</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/zmcghee/wp-movies/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/zmcghee/wp-movies/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/zmcghee/wp-movies">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1></h1>
+
+<h1>
+<a name="wordpress-movies-plugin" class="anchor" href="#wordpress-movies-plugin"><span class="octicon octicon-link"></span></a>WordPress Movies Plugin</h1>
+
+<p>Attach data (including movie posters and backdrop images) from
+TheMovieDb.org to your posts or events in WordPress.</p>
+
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Download this package and upload to plugins:
+<a href="https://github.com/zmcghee/wp-movies/archive/master.zip">https://github.com/zmcghee/wp-movies/archive/master.zip</a></p>
+
+<p>After you activate the plugin, configure it by going to the <em>Settings</em>
+screen under the <em>Movies</em> menu in your admin dashboard. You'll need a
+TMDb API key, which you can get at <a href="http://www.themoviedb.org/documentation/api">http://www.themoviedb.org/documentation/api</a></p>
+
+<h1>
+<a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="octicon octicon-link"></span></a>How does it work?</h1>
+
+<p>To attach movie data to your posts, you use the <em>Import Tool</em> under the
+<em>Movies</em> menu in your admin dashboard. The tool suggests movie matches
+based on your post titles.</p>
+
+<p>If you want to filter by a specific post type, you can configure that in
+<em>Settings</em>, also in the <em>Movies</em> menu. For example, we use the Events
+Calendar (Pro) plugin, which sets events to a post type of <code>tribe_events</code>.</p>
+
+<p>Unless you've configured it to do otherwise, the import tool will:</p>
+
+<ul>
+<li>Import a backdrop image for the matching movie if one is available,
+attach it to the post, and set it as the featured image.</li>
+<li>Import a poster image for the matching movie if one is available and
+attach it to the post. If no backdrop image was available, it will set
+the poster image as the featured image.</li>
+<li>Set a custom metadata field with the tmdb_id for the matching movie.</li>
+<li>Store some other data about the movie that you can use in your theme's
+templates (see below).</li>
+</ul><h1>
+<a name="what-other-data-can-i-use-in-my-templates" class="anchor" href="#what-other-data-can-i-use-in-my-templates"><span class="octicon octicon-link"></span></a>What other data can I use in my templates?</h1>
+
+<p>A basic example looks like::</p>
+
+<pre><code>$movie = new Movie( $post-&gt;ID );
+if( $movie-&gt;title )
+    echo $movie-&gt;title;
+if( $movie-&gt;genres )
+    echo implode(", ", $movie-&gt;genres);
+</code></pre>
+
+<p>Properties of every Movie object::</p>
+
+<pre><code>$movie-&gt;tmdb_id
+$movie-&gt;title
+$movie-&gt;year  # this is parsed from the tmdb release date (if found)
+$movie-&gt;backdrop_path  # full url from your wp uploads dir
+$movie-&gt;poster_path  # full url from your wp uploads dir
+$movie-&gt;genres  # array in plain text, e.g. array('Action', 'Adventure')
+$movie-&gt;imdb_id
+$movie-&gt;runtime  # in minutes, e.g. 121
+$movie-&gt;languages  # array in plain text, e.g. array('English')
+$movie-&gt;overview  # tmdb's text synopsis of movie
+</code></pre>
+
+<p>Although every Movie object has these properties, they may be empty
+depending on the source data. (If you haven't imported any movie data to
+a post, conjuring a Movie object from that post will also return a valid
+Movie object with all empty values.)</p>
+
+<h1>
+<a name="about-this-version" class="anchor" href="#about-this-version"><span class="octicon octicon-link"></span></a>About This Version</h1>
+
+<p>This is the first version of this plugin. It hasn't been tested
+thoroughly, although so far it works for me. There is some code
+cleanup to be done, especially in the admin screens. I'd like to
+add tests, I just have no experience with testing WP plugins.</p>
+
+<h1>
+<a name="credits--license" class="anchor" href="#credits--license"><span class="octicon octicon-link"></span></a>Credits &amp; License</h1>
+
+<p>This package is licensed under the BSD license. A copy of this license
+is enclosed in license.txt. More information at <a href="http://opensource.org/licenses/bsd-license.php">http://opensource.org/licenses/bsd-license.php</a></p>
+
+<p>This package includes pixelead0's TMDB API v3 PHP class, which in turn
+is based in part on Jonas De Smet's TMDb PHP API class. Both are BSD
+licensed and redistributed here under the terms of that license.</p>
+
+<p>This package also includes a function posted anonymously to Pastebin
+at <a href="http://pastebin.com/kgLt1RrG">http://pastebin.com/kgLt1RrG</a>. My gratitude to its author.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/zmcghee">zmcghee</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
