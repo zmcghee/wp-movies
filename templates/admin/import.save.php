@@ -25,7 +25,13 @@ function is_featured_image( $poster_or_backdrop, $movie ) {
     }
 }
 
-if( isset($_POST['posts']) ) {
+if( isset($_POST['posts']) ) { ?>
+
+<div class="updated" id="importing-message">
+    <p><strong><?php _e('Importing... Please do not navigate away from this page.', 'menu-test' ); ?></strong></p>
+</div>
+
+<?php
 
     foreach($_POST['posts'] as $post) {
     

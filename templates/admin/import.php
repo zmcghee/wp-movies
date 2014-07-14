@@ -33,6 +33,9 @@ if( $posts_without_movies ) {
 
 ?>
 <?php if( $data_saved ) { ?>
+<style>
+#importing-message { display:none; }
+</style>
 <div class="updated">
     <p><strong><?php _e('Your import was completed.', 'menu-test' ); ?></strong></p>
 </div>
