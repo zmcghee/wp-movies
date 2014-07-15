@@ -60,6 +60,19 @@ if( $posts_without_movies ) {
 function update_preview_link(is_poster, post_id) {
     var dropdown = document.getElementById('tmdb_'+post_id);
     var opt = dropdown.options[dropdown.selectedIndex];
+    if(opt.className == 'enter-id') {
+        var custom_id;
+        if(custom_id = prompt('Enter the TMDb ID you want')) {
+            var custom_opt = document.createElement('option');
+            custom_opt.setAttribute('value', post_id+'|'+custom_id);
+            custom_opt.innerHTML = 'TMDb ID '+custom_id;
+            dropdown.appendChild(custom_opt);
+            dropdown.selectedIndex = dropdown.options.length - 1;
+            return true;
+        } else {
+            return false;
+        }
+    }
     if(is_poster) {
         var url = opt.getAttribute('data-poster');
         var tag = document.getElementById('poster_'+post_id);
@@ -123,6 +136,7 @@ foreach($search['results'] as $result) {
                         <?php } ?>
                     </option>
 <?php } ?>
+                    <option value="" class="enter-id">Enter a TMDb ID</option>
                     <option value="">None (Leave Blank)</option>
                 </select>
             </td>
