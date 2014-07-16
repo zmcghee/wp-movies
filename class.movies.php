@@ -120,7 +120,7 @@ class Movies {
 	}
 	
 	public static function plugin_deactivation() {
-	    self::clear_all_data();
+	    
 	}
 	
 	public static function restore_defaults($exclude=array('zmovies_tmdb_key')) {
