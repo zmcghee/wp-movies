@@ -112,8 +112,12 @@ function update_preview_links(post_id) {
 <?php
 $search = Movies::$TMDB->searchMovie($post->post_title,'cl');
 if( count($search['results']) < 1 && preg_match("@:@", $post->post_title) ) {
-    $title = trim(explode(":", $post->post_title, 2)[1]);
-    $search = Movies::$TMDB->searchMovie($title,'cl');
+    $parts = explode(":", $post->post_title, 2);
+    if( count($parts) > 1 )
+    {
+        $title = trim($parts[1]);
+        $search = Movies::$TMDB->searchMovie($title,'cl');
+    }
 }
 foreach($search['results'] as $result) {
 
