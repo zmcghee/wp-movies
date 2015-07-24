@@ -59,19 +59,19 @@ class Movies {
 	    if($size == 'backdrop') { $size = Movie::BACKDROP_WIDTH; }
 	    $image_url = self::$TMDB->getImageURL($size) . $file_path;
 	    $image_to_upload = file_get_contents( $image_url );
-        $wp_upload_dir = wp_upload_dir();
-        $tmdb_upload_dir = $wp_upload_dir['basedir'] . '/tmdb';
-        if( !file_exists( $tmdb_upload_dir ) ) {
-            mkdir( $tmdb_upload_dir );
-        }
-        $size_upload_dir = $tmdb_upload_dir . '/' . $size;
-        if( !file_exists( $size_upload_dir ) ) {
-            mkdir( $size_upload_dir );
-        }
-        $image_path = $size_upload_dir . $file_path;
-        $fh = fopen( $image_path, 'w' );
-        fwrite( $fh, $image_to_upload );
-        fclose( $fh );
+            $wp_upload_dir = wp_upload_dir();
+            $tmdb_upload_dir = $wp_upload_dir['basedir'] . '/tmdb';
+            if( !file_exists( $tmdb_upload_dir ) ) {
+                mkdir( $tmdb_upload_dir );
+            }
+            $size_upload_dir = $tmdb_upload_dir . '/' . $size;
+            if( !file_exists( $size_upload_dir ) ) {
+                mkdir( $size_upload_dir );
+            }
+            $image_path = $size_upload_dir . $file_path;
+            $fh = fopen( $image_path, 'w' );
+            fwrite( $fh, $image_to_upload );
+            fclose( $fh );
 	}
 
 	public static function data_from_tmdb_basic_search( $result, $get_detail=false ) {
@@ -86,28 +86,28 @@ class Movies {
 	        }
 	    }
 	    $data = array(
-            'tmdb_id' => $result['id'],
-            'year' => $release_year,
-            'backdrop_path' => $result['backdrop_path'],
-            'poster_path' => $result['poster_path'],
-            'title' => $result['title'],
-            'genres' => array(),
-            'imdb_id' => false,
-            'runtime' => false,
-            'languages' => array(),
-            'overview' => false
-        );
+                'tmdb_id' => $result['id'],
+                'year' => $release_year,
+                'backdrop_path' => $result['backdrop_path'],
+                'poster_path' => $result['poster_path'],
+                'title' => $result['title'],
+                'genres' => array(),
+                'imdb_id' => false,
+                'runtime' => false,
+                'languages' => array(),
+                'overview' => false
+            );
 	    if($get_detail) {
 	        if(isset($result['genres'])) {
-                foreach($result['genres'] as $genre) {
-                    $data['genres'][] = $genre['name'];
+                    foreach($result['genres'] as $genre) {
+                        $data['genres'][] = $genre['name'];
+                    }
                 }
-            }
-            if(isset($result['spoken_languages'])) {
-                foreach($result['spoken_languages'] as $language) {
-                    $data['languages'][] = $language['name'];
+                if(isset($result['spoken_languages'])) {
+                    foreach($result['spoken_languages'] as $language) {
+                        $data['languages'][] = $language['name'];
+                    }
                 }
-            }
 	        $data['imdb_id'] = $result['imdb_id'];
 	        $data['runtime'] = $result['runtime'];
 	        $data['overview'] = $result['overview'];
@@ -164,7 +164,7 @@ class Movies {
 
     public static function posts_with_tmdb_id( $tmdb_id ) {
         $args = array(
-	        'posts_per_page' => 9999,
+	    'posts_per_page' => 9999,
             'meta_key'         => 'tmdb_id',
             'meta_value'       => $tmdb_id,
             'post_type'        => get_option('zmovies_post_type'),
@@ -176,11 +176,11 @@ class Movies {
 	public static function posts_with_movie_data() {
 	    $args = array(
 	        'posts_per_page' => 9999,
-            'meta_key'         => 'tmdb_id',
-            'post_type'        => get_option('zmovies_post_type'),
-            'suppress_filters' => true
-        );
-        return get_posts( $args );
+                'meta_key'         => 'tmdb_id',
+                'post_type'        => get_option('zmovies_post_type'),
+                'suppress_filters' => true
+            );
+            return get_posts( $args );
 	}
 
     public static $settings = array(
@@ -200,9 +200,9 @@ class Movies {
             'description' => 'e.g. `original` or `w300`. Must be supported by TMDb.'
         ),
         'zmovies_post_type' => array(
-            'default' => 'tribe_events',
+            'default' => '',
             'label' => 'Post type (optional)',
-            'description' => '`tribe_events` for use with Events Calendar (Pro); set to blank or other post type as needed'
+            'description' => 'set to custom post type if needed (e.g. `tribe_events` for use with Events Calendar Pro plugin)'
         ),
         'zmovies_attach_media' => array(
             'default' => 'y',
